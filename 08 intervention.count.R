@@ -48,6 +48,7 @@ intervention_groups <- c(
   "irrigation.management" = "Water management",
   "hydraulic.arrangement" = "Water management",
   "crop.variety.selection" = "crop establishment and harvesting",
+  "crop.rotation" = "Crop management system",
   "cultivar.selection/selective.breeding" = "crop establishment and harvesting",
   "sowing.timing" = "crop establishment and harvesting",
   "planting.density" = "crop establishment and harvesting",
@@ -66,8 +67,10 @@ intervention_groups <- c(
 # Convert from wide to long format
 intervention_counts <- database %>%
   select(all_of(intervention_cols), climate_focus) %>%
-  pivot_longer(cols = all_of(intervention_cols), names_to = "Intervention", 
-               values_to = "Studied") %>%
+  pivot_longer(
+    cols = all_of(intervention_cols), names_to = "Intervention",
+    values_to = "Studied"
+  ) %>%
   filter(Studied == "Y") %>%
   # Add group information
   mutate(Group = intervention_groups[Intervention]) %>%
@@ -151,9 +154,11 @@ group_totals <- intervention_counts %>%
   summarise(GroupTotal = sum(Total), .groups = "drop")
 overall_total <- sum(group_totals$GroupTotal)
 group_totals <- group_totals %>%
-  mutate(GroupLabel = paste0(Group, " 
-                             (", round(100 * GroupTotal / overall_total, 1), 
-                             "%)"))
+  mutate(GroupLabel = paste0(
+    Group, "
+                             (", round(100 * GroupTotal / overall_total, 1),
+    "%)"
+  ))
 long_data_intervention <- long_data_intervention %>%
   left_join(group_totals, by = "Group")
 
@@ -166,9 +171,11 @@ share_both <- interven_both / interven_total
 print(share_both)
 
 # frequency of studies on interventions of both
-  #   (compared to adaptation, mitigation)
-totalinterven_counts <- colSums(intervention_counts[, 
-                                                    c("Adaptation", "Mitigation", "Both")])
+#   (compared to adaptation, mitigation)
+totalinterven_counts <- colSums(intervention_counts[
+  ,
+  c("Adaptation", "Mitigation", "Both")
+])
 totalinterven_counts
 
 shareinterven_both_freq <- totalinterven_counts["Both"] / sum(totalinterven_counts)

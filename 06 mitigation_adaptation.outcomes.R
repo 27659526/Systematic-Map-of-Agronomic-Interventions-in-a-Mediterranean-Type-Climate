@@ -9,11 +9,13 @@ print(climtype_counts)
 
 #########################################
 ### Climate change mitigation outcome ##
-expected_combos <- c("SOC", "N2O", "CH4", "CO2",
-                     "SOC N2O", "SOC CH4", "SOC CO2",
-                     "N2O CH4", "N2O CO2", "CH4 CO2",
-                     "SOC N2O CH4", "SOC N2O CO2", "SOC CH4 CO2",
-                     "N2O CH4 CO2", "SOC N2O CH4 CO2", "None")
+expected_combos <- c(
+  "SOC", "N2O", "CH4", "CO2",
+  "SOC N2O", "SOC CH4", "SOC CO2",
+  "N2O CH4", "N2O CO2", "CH4 CO2",
+  "SOC N2O CH4", "SOC N2O CO2", "SOC CH4 CO2",
+  "N2O CH4 CO2", "SOC N2O CH4 CO2", "None"
+)
 
 # Main pipeline
 mit_counts <- database %>%
@@ -34,8 +36,8 @@ mit_counts <- database %>%
   ) %>%
   count(mit_Combo, sort = FALSE) %>%
   complete(mit_Combo = expected_combos, fill = list(n = 0)) %>%
-  arrange(desc(n)) %>% 
-  filter(mit_Combo != "None") ### None come from the adaptation only related studies. 
+  arrange(desc(n)) %>%
+  filter(mit_Combo != "None") ### None come from the adaptation only related studies.
 
 
 print(mit_counts)
@@ -61,7 +63,7 @@ adaptation_labels <- c(
   "pests",
   "heavy metals",
   "shade",
-  "trait"
+  "traits"
 )
 
 # Corrected counting approach
@@ -70,8 +72,10 @@ adaptation_counts <- map_dfr(adaptation_labels, ~ {
     filter(!is.na(primary.adaptation.aspect.studied)) %>%
     summarize(
       term = .x,
-      count = sum(str_detect(primary.adaptation.aspect.studied, 
-                             fixed(.x, ignore_case = TRUE)))
+      count = sum(str_detect(
+        primary.adaptation.aspect.studied,
+        fixed(.x, ignore_case = TRUE)
+      ))
     )
 }) %>%
   arrange(desc(count))
