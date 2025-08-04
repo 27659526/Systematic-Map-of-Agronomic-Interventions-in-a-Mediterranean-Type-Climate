@@ -3,5 +3,5 @@ This repository contains R code used for the systematic mapping published in [Bu
 
 The repository includes the following: 
   data : the raw data in an Excel worksheet called "database" in the file: Supplementary Material V2 
-  scripts : the r code used for the analysis
-  main.R : the full r code in one scipt
+  R.scripts : the r code used for the analysis
+  Main.R : the full r code in one scipt
