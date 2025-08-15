@@ -2,10 +2,10 @@
 # ==== 01 load.data_database.R ====
 library(readxl)
 
-#Download the Supplementary material and upload sheet "database"
+#Download the Supplementary material and upload sheet "Database"
 database <- read_excel(
   "[yourpath]/Supplementary Material_agr_intervention_database.xlsx",
-  sheet = "database",
+  sheet = "Database",
   skip = 1
 )
 
@@ -1541,3 +1541,4 @@ climate_focus_counts <- sankey_data_aggregated %>%
   filter(climate_focus %in% c("Adaptation", "Both", "Mitigation"))
 print("Climate Focus Counts (Unique Studies):")
 print(climate_focus_counts)
+
